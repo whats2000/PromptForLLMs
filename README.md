@@ -23,7 +23,7 @@ To use a specific prompt:
 
 ## License
 
-This project is licensed under the [Specify License Name]. See the `LICENSE` file for more information.
+This project is licensed under the [MIT License](LICENSE). See the `LICENSE` file for more information.
 
 ## Contributing
 

@@ -94,70 +94,92 @@ Place as the first user message to guide the Agent in executing the task.
 Please adjust the content as needed to fit the task requirements for your task.
 
 ```markdown
-## Task: Create a New API File with Proper Integration and Export Updates  
+## Task: Create a New API File with Proper Type Definitions and Export Updates  
 
 ## Step-by-Step Workflow Execution  
 
-### Step 1: **Verify Workspace Structure and Clarify Inputs**  
-- **ACTION:** Start by using the `listFiles` command to display the project directory structure.  
-  - **CLARIFY:** Ask the user to provide the following:  
-    - The Swagger document or schema (pasted or via URL).  
-    - The location of type definitions and a similar sample file (if available).  
-    - The directory where the new API file should be created.  
-  - **CHECK:** If an `index.ts` or `index.js` file exists in the directory, **note its location** for later export updates.  
+---
 
-(Context: "Verifying the structure ensures proper integration and avoids misplaced files.")  
+### Step 1: **Request Swagger Document or URL**  
+- **ASK USER:**  
+  - "Please provide the Swagger document or schema by either:  
+    - Pasting the content directly, or  
+    - Sharing a URL to access the document."  
+
+- **IF URL:** Automatically **read the document** from the provided URL.  
+- **ASK USER:** "Which endpoint or target from the Swagger document should be used to generate the new API?"  
+
+(Context: "Identifying the target endpoint ensures that only relevant types and API logic are generated.")
 
 ---
 
-### Step 2: **Review Inputs and Analyze Coding Style**  
-- **READ:**  
-  - The type definition file to understand its format and conventions.  
-  - A similar API file (if available) to match the project’s coding style.  
-  - The `index.ts` file to determine if exports need to be updated.  
+### Step 2: **List All Files in Project and Identify API and Type Locations**  
+- **USE:** `listFiles` to display the project’s directory structure.  
+- **GOAL:** Locate the directories for:  
+  - API modules (e.g., a folder containing files like `usersApi.ts`, `productsApi.ts`).  
+  - Type definitions (e.g., a folder containing `types.ts`, `interfaces.ts`).  
 
-- **ASK:** Clarify any naming conventions, directory rules, or project-specific requirements for file generation and exports.  
+- **HANDLE ISSUES:**  
+  - If the directories are hard to locate or don’t exist: **ASK USER** whether to create the directories and proceed.
 
-(Context: "Matching the coding style ensures consistency and maintainability.")  
-
----
-
-### Step 3: **Plan and Generate the API File**  
-- **PLAN:**  
-  - Determine the endpoints, response types, and the file structure based on the Swagger document.  
-  - Identify necessary type definitions and any reusable components.  
-
-- **GENERATE:**  
-  - Create the new API file with the correct endpoints, types, and annotations.  
-  - Follow any observed conventions from the type and API files.  
-
-(Context: "A well-structured plan leads to an efficient and accurate implementation.")  
+(Context: "Listing files ensures we correctly identify or create necessary directories for smooth integration.")
 
 ---
 
-### Step 4: **Verify and Update the Export Mechanism**  
-- **CHECK:** If an `index.ts` or `index.js` file exists:  
-  - **UPDATE** it by adding an export statement for the newly created API file or type definition.  
-- **VERIFY:** Ensure the file paths and exports are correct to avoid any import errors.  
+### Step 3: **List and Read Files in API Directory**  
+- **LIST:** All files in the API directory.  
+- **CHECK:**  
+  - If an `index.ts` or `index.js` file exists, **read it** to understand how exports are managed.  
+  - **SELECT:** One API file (e.g., `usersApi.ts` or a similar one) to analyze its coding style, structure, and comments.  
 
-(Context: "Proper exports ensure smooth integration and project-wide availability.")  
-
----
-
-### Step 5: **Final Verification and Completion**  
-- **VERIFY WORKSPACE:** Run the `listFiles` command to confirm that the new API file and updates are in place.  
-- **ATTEMPT COMPLETION:** Provide the generated API file, and summarize:  
-  - The location of the file.  
-  - The updates made to the `index.ts` file (if any).  
-  - Commands or tests to verify the API's integration.
-
-(Context: "Final verification ensures the task is complete and ready for use.")  
+(Context: "Analyzing an existing API file ensures consistency in structure and code quality.")  
 
 ---
 
-## Outcome Expectations  
-- A **new API file** adhering to project standards.  
-- Correct **integration and exports** for seamless use across the project.  
-- Actionable feedback for testing and verifying the API.
+### Step 4: **List and Read Files in Type Definition Directory**  
+- **LIST:** All files in the type definitions directory.  
+- **CHECK:**  
+  - If an `index.ts` or `index.js` file exists, **read it** to understand how type exports are handled.  
+  - **SELECT:** A type definition file that is similar to the current API use case (e.g., `usersTypes.ts` if working on user-related APIs).  
+
+(Context: "Reviewing a similar type file helps maintain consistent formatting, comments, and structure.")  
+
+---
+
+### Step 5: **Create the Type Definition File**  
+- **IMPLEMENT:**  
+  - Generate a new type definition file based on the target endpoint from the Swagger document.  
+  - Follow the style and conventions observed from the selected type file.  
+
+- **UPDATE:** If an `index.ts` or `index.js` file exists in the type definitions directory, **add an export statement** for the new type file.  
+
+(Context: "Creating type definitions first ensures that the API implementation is strongly typed and well-structured.")
+
+---
+
+### Step 6: **Create the API File**  
+- **IMPLEMENT:**  
+  - Generate a new API file with the necessary endpoints, type annotations, and logic based on the Swagger document.  
+  - Ensure that the coding style, structure, and comments match the selected API sample file.
+
+- **UPDATE:** If an `index.ts` or `index.js` file exists in the API directory, **add an export statement** for the new API module.  
+
+(Context: "Maintaining consistency with the existing API files improves readability and maintainability.")
+
+---
+
+### Step 7: **Final Verification and Completion**  
+- **VERIFY WORKSPACE:** Run the `listFiles` command again to confirm the new API and type files are correctly placed and indexed.  
+- **ATTEMPT COMPLETION:** Provide the final API and type files along with a summary of changes:  
+  - The location of the new API and type files.  
+  - Updates made to any `index.ts` or `index.js` files.  
+  - Suggestions for testing or verification.
+
+---
+
+## **Outcome Expectations**  
+- A **new type definition file** and **API file** adhering to the project’s coding style.  
+- Proper **integration and export updates** in the respective `index.ts` files.  
+- Clear instructions for testing and verifying the integration.
 
 ```
